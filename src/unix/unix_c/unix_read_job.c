@@ -50,12 +50,12 @@ static value result_read(struct job_read *job)
     long result = job->result;
     if (result < 0) {
         int error_code = job->error_code;
-        caml_remove_generational_global_root(&(job->string));
+        caml_delete_root(&(job->string));
         lwt_unix_free_job(&job->job);
         unix_error(error_code, "read", Nothing);
     } else {
         memcpy(Bytes_val(job->string) + job->offset, job->buffer, result);
-        caml_remove_generational_global_root(&(job->string));
+        caml_delete_root(&(job->string));
         lwt_unix_free_job(&job->job);
         return Val_long(result);
     }
@@ -70,7 +70,7 @@ CAMLprim value lwt_unix_read_job(value val_fd, value val_buffer,
     job->length = length;
     job->string = val_buffer;
     job->offset = Long_val(val_offset);
-    caml_register_generational_global_root(&(job->string));
+    caml_create_root(&(job->string));
     return lwt_unix_alloc_job(&(job->job));
 }
 #endif

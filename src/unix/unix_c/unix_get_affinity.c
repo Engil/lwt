@@ -31,8 +31,8 @@ CAMLprim value lwt_unix_get_affinity(value val_pid)
     for (i = sizeof(cpu_set_t) * 8 - 1; i >= 0; i--) {
         if (CPU_ISSET(i, &cpus)) {
             node = caml_alloc_tuple(2);
-            Field(node, 0) = Val_int(i);
-            Field(node, 1) = list;
+            caml_initialize_field(node, 0, Val_int(i));
+            caml_initialize_field(node, 1, list);
             list = node;
         }
     }

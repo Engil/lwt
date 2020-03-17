@@ -563,7 +563,7 @@ value lwt_unix_recv_notifications() {
 
   /* Read all pending notifications. */
   for (i = 0; i < notification_index; i++)
-    Field(result, i) = Val_long(notifications[i]);
+    caml_initialize_field(result, i, Val_long(notifications[i]));
   /* Reset the index. */
   notification_index = 0;
   lwt_unix_mutex_unlock(&notification_mutex);

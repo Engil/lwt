@@ -103,8 +103,8 @@ static value result_open(struct job_open *job)
     int fd = job->fd;
     LWT_UNIX_CHECK_JOB_ARG(job, fd < 0, "open", job->name);
     value result = caml_alloc_tuple(2);
-    Field(result, 0) = Val_int(fd);
-    Field(result, 1) = Val_bool(job->blocking);
+    caml_initialize_field(result, 0, Val_int(fd));
+    caml_initialize_field(result, 1, Val_bool(job->blocking));
     lwt_unix_free_job(&job->job);
     return result;
 }
