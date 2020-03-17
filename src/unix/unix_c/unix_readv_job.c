@@ -56,7 +56,7 @@ static value result_readv(struct job_readv *job)
     for (read_buffer = job->buffers; read_buffer->temporary_buffer != NULL;
          ++read_buffer) {
         free(read_buffer->temporary_buffer);
-        caml_remove_generational_global_root(&read_buffer->caml_buffer);
+        caml_delete_root(&read_buffer->caml_buffer);
     }
     free(job->iovecs);
 

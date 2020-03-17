@@ -38,13 +38,13 @@ static value alloc_passwd_entry(struct passwd *entry)
     dir = caml_copy_string(entry->pw_dir);
     shell = caml_copy_string(entry->pw_shell);
     res = caml_alloc_small(7, 0);
-    Field(res, 0) = name;
-    Field(res, 1) = passwd;
-    Field(res, 2) = Val_int(entry->pw_uid);
-    Field(res, 3) = Val_int(entry->pw_gid);
-    Field(res, 4) = gecos;
-    Field(res, 5) = dir;
-    Field(res, 6) = shell;
+    caml_initialize_field(res, 0, name);
+    caml_initialize_field(res, 1, passwd);
+    caml_initialize_field(res, 2, Val_int(entry->pw_uid));
+    caml_initialize_field(res, 3, Val_int(entry->pw_gid));
+    caml_initialize_field(res, 4, gecos);
+    caml_initialize_field(res, 5, dir);
+    caml_initialize_field(res, 6, shell);
     End_roots();
     return res;
 }
@@ -59,10 +59,10 @@ static value alloc_group_entry(struct group *entry)
     pass = caml_copy_string(entry->gr_passwd);
     mem = caml_copy_string_array((const char **)entry->gr_mem);
     res = caml_alloc_small(4, 0);
-    Field(res, 0) = name;
-    Field(res, 1) = pass;
-    Field(res, 2) = Val_int(entry->gr_gid);
-    Field(res, 3) = mem;
+    caml_initialize_field(res, 0, name);
+    caml_initialize_field(res, 1, pass);
+    caml_initialize_field(res, 2, Val_int(entry->gr_gid));
+    caml_initialize_field(res, 3, mem);
     End_roots();
     return res;
 }

@@ -28,9 +28,9 @@ static value alloc_protoent(struct protoent *entry)
     name = caml_copy_string(entry->p_name);
     aliases = caml_copy_string_array((const char **)entry->p_aliases);
     res = caml_alloc_small(3, 0);
-    Field(res, 0) = name;
-    Field(res, 1) = aliases;
-    Field(res, 2) = Val_int(entry->p_proto);
+    caml_initialize_field(res, 0, name);
+    caml_initialize_field(res, 1, aliases);
+    caml_initialize_field(res, 2, Val_int(entry->p_proto));
     End_roots();
     return res;
 }
@@ -45,10 +45,10 @@ static value alloc_servent(struct servent *entry)
     aliases = caml_copy_string_array((const char **)entry->s_aliases);
     proto = caml_copy_string(entry->s_proto);
     res = caml_alloc_small(4, 0);
-    Field(res, 0) = name;
-    Field(res, 1) = aliases;
-    Field(res, 2) = Val_int(ntohs(entry->s_port));
-    Field(res, 3) = proto;
+    caml_initialize_field(res, 0, name);
+    caml_initialize_field(res, 1, aliases);
+    caml_initialize_field(res, 2, Val_int(ntohs(entry->s_port)));
+    caml_initialize_field(res, 3, proto);
     End_roots();
     return res;
 }

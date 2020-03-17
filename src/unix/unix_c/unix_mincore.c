@@ -33,7 +33,7 @@ CAMLprim value lwt_unix_mincore(value val_buffer, value val_offset,
     mincore((char *)Caml_ba_data_val(val_buffer) + Long_val(val_offset),
             Long_val(val_length), vec);
     long i;
-    for (i = 0; i < len; i++) Field(val_states, i) = Val_bool(vec[i] & 1);
+    for (i = 0; i < len; i++) caml_initialize_field(val_states, i, Val_bool(vec[i] & 1));
     return Val_unit;
 }
 

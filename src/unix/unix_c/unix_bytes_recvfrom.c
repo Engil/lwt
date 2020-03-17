@@ -33,8 +33,8 @@ value lwt_unix_bytes_recvfrom(value fd, value buf, value ofs, value len,
     if (ret == -1) uerror("recvfrom", Nothing);
     address = alloc_sockaddr(&addr, addr_len, -1);
     result = caml_alloc_tuple(2);
-    Field(result, 0) = Val_int(ret);
-    Field(result, 1) = address;
+    caml_initialize_field(result, 0, Val_int(ret));
+    caml_initialize_field(result, 1, address);
     CAMLreturn(result);
 }
 #endif

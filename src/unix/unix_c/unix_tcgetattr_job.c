@@ -34,7 +34,8 @@ static value result_tcgetattr(struct job_tcgetattr *job)
 {
     LWT_UNIX_CHECK_JOB(job, job->result < 0, "tcgetattr");
     value res = caml_alloc_tuple(NFIELDS);
-    encode_terminal_status(&job->termios, &Field(res, 0));
+    value v = Field(res, 0);
+    encode_terminal_status(&job->termios, &v);
     lwt_unix_free_job(&job->job);
     return res;
 }
