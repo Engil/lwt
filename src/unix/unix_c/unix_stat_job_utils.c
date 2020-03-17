@@ -26,43 +26,43 @@ value copy_stat(int use_64, struct stat *buf)
                              (NANOSEC(buf, c) / 1000000000.0));
     offset = use_64 ? caml_copy_int64(buf->st_size) : Val_int(buf->st_size);
     v = caml_alloc_small(12, 0);
-    Field(v, 0) = Val_int(buf->st_dev);
-    Field(v, 1) = Val_int(buf->st_ino);
+    caml_initialize_field(v, 0, Val_int(buf->st_dev));
+    caml_initialize_field(v, 1, Val_int(buf->st_ino));
     switch (buf->st_mode & S_IFMT) {
         case S_IFREG:
-            Field(v, 2) = Val_int(0);
+            caml_initialize_field(v, 2, Val_int(0));
             break;
         case S_IFDIR:
-            Field(v, 2) = Val_int(1);
+            caml_initialize_field(v, 2, Val_int(1));
             break;
         case S_IFCHR:
-            Field(v, 2) = Val_int(2);
+            caml_initialize_field(v, 2, Val_int(2));
             break;
         case S_IFBLK:
-            Field(v, 2) = Val_int(3);
+            caml_initialize_field(v, 2, Val_int(3));
             break;
         case S_IFLNK:
-            Field(v, 2) = Val_int(4);
+            caml_initialize_field(v, 2, Val_int(4));
             break;
         case S_IFIFO:
-            Field(v, 2) = Val_int(5);
+            caml_initialize_field(v, 2, Val_int(5));
             break;
         case S_IFSOCK:
-            Field(v, 2) = Val_int(6);
+            caml_initialize_field(v, 2, Val_int(6));
             break;
         default:
-            Field(v, 2) = Val_int(0);
+            caml_initialize_field(v, 2, Val_int(0));
             break;
     }
-    Field(v, 3) = Val_int(buf->st_mode & 07777);
-    Field(v, 4) = Val_int(buf->st_nlink);
-    Field(v, 5) = Val_int(buf->st_uid);
-    Field(v, 6) = Val_int(buf->st_gid);
-    Field(v, 7) = Val_int(buf->st_rdev);
-    Field(v, 8) = offset;
-    Field(v, 9) = atime;
-    Field(v, 10) = mtime;
-    Field(v, 11) = ctime;
+    caml_initialize_field(v, 3, Val_int(buf->st_mode & 07777));
+    caml_initialize_field(v, 4, Val_int(buf->st_nlink));
+    caml_initialize_field(v, 5, Val_int(buf->st_uid));
+    caml_initialize_field(v, 6, Val_int(buf->st_gid));
+    caml_initialize_field(v, 7, Val_int(buf->st_rdev));
+    caml_initialize_field(v, 8, offset);
+    caml_initialize_field(v, 9, atime);
+    caml_initialize_field(v, 10, mtime);
+    caml_initialize_field(v, 11, ctime);
     CAMLreturn(v);
 }
 

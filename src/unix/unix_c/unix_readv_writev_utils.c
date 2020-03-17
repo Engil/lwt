@@ -51,7 +51,7 @@ void flatten_io_vectors(struct iovec *iovecs, value io_vectors,
                 read_buffers[copy_index].length = length;
                 read_buffers[copy_index].offset = offset;
                 read_buffers[copy_index].caml_buffer = buffer;
-                caml_register_generational_global_root(
+                caml_create_root(
                     &read_buffers[copy_index].caml_buffer);
 
                 iovecs[index].iov_base =
