@@ -63,7 +63,7 @@ static value result_readv(struct job_readv *job)
     }
     free(job->iovecs);
 
-    caml_remove_generational_global_root(&job->ocaml_io_vectors);
+    caml_delete_root(&job->ocaml_io_vectors);
 
     /* Decide on the actual result. */
     ssize_t result = job->result;
@@ -92,7 +92,7 @@ CAMLprim value lwt_unix_readv_job(value fd, value io_vectors, value val_count)
     /* Retain the OCaml I/O vectors, so that the buffers don't get
        deallocated by the GC. */
     job->ocaml_io_vectors = io_vectors;
-    caml_register_generational_global_root(&job->ocaml_io_vectors);
+    caml_create_root(&job->ocaml_io_vectors);
 
     CAMLreturn(lwt_unix_alloc_job(&job->job));
 }

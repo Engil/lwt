@@ -34,7 +34,7 @@ static void worker_bytes_write(struct job_bytes_write *job)
 static value result_bytes_write(struct job_bytes_write *job)
 {
     long result = job->result;
-    caml_remove_generational_global_root(&job->ocaml_buffer);
+    caml_delete_root(&job->ocaml_buffer);
     LWT_UNIX_CHECK_JOB(job, result < 0, "write");
     lwt_unix_free_job(&job->job);
     return Val_long(result);
@@ -48,7 +48,7 @@ CAMLprim value lwt_unix_bytes_write_job(value val_fd, value val_buffer,
     job->buffer = (char *)Caml_ba_data_val(val_buffer) + Long_val(val_offset);
     job->length = Long_val(val_length);
     job->ocaml_buffer = val_buffer;
-    caml_register_generational_global_root(&job->ocaml_buffer);
+    caml_create_root(&job->ocaml_buffer);
     return lwt_unix_alloc_job(&(job->job));
 }
 #endif
